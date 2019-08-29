@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Teacher>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Salary</th>
+            <th scope="col">Years of experience</th>
+        </tr>
+    </thead>
+    <tbody >
+        @foreach(var teacher in Model)
+        {
+            <tr>
+                <td>@teacher.Name</td>
+                <td>@teacher.Salary</td>
+                <td>@teacher.YearsOfExperience</td>
+            </tr>
+        }
+    </tbody>
+</table>

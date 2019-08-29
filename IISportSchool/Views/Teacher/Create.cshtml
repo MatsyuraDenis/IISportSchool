@@ -1,0 +1,20 @@
+﻿@model Teacher
+
+@using (Html.BeginForm("Create", "Teachers"))
+{
+    <div class="form-group">
+        @Html.LabelFor(t => t.Name)
+        @Html.TextBoxFor(t => t.Name, new { @class = "form-control" })
+    </div>    
+    <div class="form-group">
+        @Html.LabelFor(t => t.Salary)
+        @Html.TextBoxFor(t => t.Salary, new { @class = "form-control" })
+    </div>      
+    <div class="form-group">
+        @Html.LabelFor(t => t.YearsOfExperience)
+        @Html.TextBoxFor(t => t.YearsOfExperience, new { @class = "form-control" })
+    </div>
+
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn bg-primary">Save</button>
+}

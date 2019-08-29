@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Children>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Second name</th>
+            <th>Age</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var child in Model)
+        {
+            <tr>
+                <td>@child.Name</td>
+                <td>@child.SecondName</td>
+                <td>@child.Age</td>
+            </tr>
+        }
+    </tbody>
+</table>
