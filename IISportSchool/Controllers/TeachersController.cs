@@ -9,10 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IISportSchool.Controllers
 {
-    public class TeacherController : Controller
+    public class TeachersController : Controller
     {
         private ApplicationDbContext _context;
-        public TeacherController(ApplicationDbContext context)
+        public TeachersController(ApplicationDbContext context)
         {
             _context = context;
         }
