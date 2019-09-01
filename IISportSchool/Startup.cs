@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using IISportSchool.Models;
 
 namespace IISportSchool
 {
@@ -27,8 +26,8 @@ namespace IISportSchool
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"]));
-            services.AddTransient<ITeacherRepository, EFTeacherRepository>();
-            services.AddTransient<IChildrenRepository, EFChildrenRepository>();
+            services.AddScoped<ITeacherRepository, EFTeacherRepository>();
+            services.AddScoped<IChildrenRepository, EFChildrenRepository>();
             services.AddMvc();
         }
 
@@ -41,13 +40,18 @@ namespace IISportSchool
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
+                    name: null,
+                    template: "",
+                    defaults: new { controller = "Service", action = "Index" });
+                routes.MapRoute(
+                    name: null,
+                    template: "{controller}",
+                    defaults: new { controller = "Service", action = "Index" });
+                routes.MapRoute(
+                    name: null,
                     template: "{controller}/{action}",
-                    defaults: new { controller = "Children", action = "List" });
+                    defaults: new { controller = "Service", action = "Index" });
             });
-
-            SeedChildrens.EnsurePopulated(app);
-            SeedChildrens.EnsurePopulated(app);
         }
     }
 }

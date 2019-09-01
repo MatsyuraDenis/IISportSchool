@@ -4,14 +4,16 @@ using IISportSchool.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IISportSchool.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190830162107_ChangeServiseTable")]
+    partial class ChangeServiseTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +54,7 @@ namespace IISportSchool.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("ServiceId");
+                    b.Property<int?>("ServiceId");
 
                     b.Property<int>("TeacherId");
 
@@ -70,6 +72,8 @@ namespace IISportSchool.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description");
 
                     b.Property<string>("Name");
 
@@ -106,10 +110,9 @@ namespace IISportSchool.Migrations
 
             modelBuilder.Entity("IISportSchool.Models.Section", b =>
                 {
-                    b.HasOne("IISportSchool.Models.Service", "Service")
+                    b.HasOne("IISportSchool.Models.Service")
                         .WithMany("_sections")
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ServiceId");
 
                     b.HasOne("IISportSchool.Models.Teacher", "Teacher")
                         .WithMany()

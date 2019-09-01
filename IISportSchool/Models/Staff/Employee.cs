@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace IISportSchool.Models
 {
-    public interface ITeacherRepository
+    public class Employee : Worker
     {
-        IEnumerable<Teacher> GetTeachers { get; }
+        public string Position { get; set; }
     }
 }

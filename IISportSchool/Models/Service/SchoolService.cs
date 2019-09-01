@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 
 namespace IISportSchool.Models
 {
-    public class Teacher
+    public abstract class SchoolService
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string SecondName { get; set; }
-        public int Salary { get; set; }
-        public int YearsOfExperience { get; set; }
+        public abstract int NumberOfChildren { get; }
+
+        public abstract double GetServiceProfit();
+        public abstract List<Worker> GetStaff();
+
     }
 }

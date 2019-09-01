@@ -9,17 +9,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IISportSchool.Controllers
 {
-    public class TeachersController : Controller
+    public class TeacherController : Controller
     {
-        private ApplicationDbContext _context;
-        public TeachersController(ApplicationDbContext context)
+        private ITeacherRepository _repository;
+        public TeacherController(ITeacherRepository _repository)
         {
-            _context = context;
+            this._repository = _repository;
         }
         // GET: /<controller>/
         public IActionResult Index()
         {
-            return View(_context.Teachers.ToList());
+            return View(_repository.Teachers.ToList());
         }
 
         [HttpGet]
@@ -31,8 +31,7 @@ namespace IISportSchool.Controllers
         [HttpPost]
         public IActionResult Create(Teacher teacher)
         {
-            _context.Teachers.Add(teacher);
-            _context.SaveChanges();
+            _repository.Add(teacher);
             return RedirectToAction("Index");
         }
     }

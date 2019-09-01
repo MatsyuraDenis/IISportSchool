@@ -17,7 +17,7 @@ namespace IISportSchool.Controllers
 
         public IActionResult List()
         {
-            return View(_repository.Childrens);
+            return View(_repository.Children);
         }
     }
 }

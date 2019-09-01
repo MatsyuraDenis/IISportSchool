@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 
 namespace IISportSchool.Models
 {
-    public interface IChildrenRepository
+    public interface ITeacherInfo
     {
-        IQueryable<Children> Childrens { get; }
+        string FullName { get; }
+        string SectionName { get; }
+        string ShortInfo();
     }
 }

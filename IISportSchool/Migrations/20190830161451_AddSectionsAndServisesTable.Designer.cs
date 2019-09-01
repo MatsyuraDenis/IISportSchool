@@ -4,14 +4,16 @@ using IISportSchool.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IISportSchool.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190830161451_AddSectionsAndServisesTable")]
+    partial class AddSectionsAndServisesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,13 +54,9 @@ namespace IISportSchool.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("ServiceId");
-
                     b.Property<int>("TeacherId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ServiceId");
 
                     b.HasIndex("TeacherId");
 
@@ -70,6 +68,8 @@ namespace IISportSchool.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description");
 
                     b.Property<string>("Name");
 
@@ -90,9 +90,13 @@ namespace IISportSchool.Migrations
 
                     b.Property<string>("SecondName");
 
+                    b.Property<int?>("ServiceId");
+
                     b.Property<int>("YearsOfExperience");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ServiceId");
 
                     b.ToTable("Teachers");
                 });
@@ -106,15 +110,17 @@ namespace IISportSchool.Migrations
 
             modelBuilder.Entity("IISportSchool.Models.Section", b =>
                 {
-                    b.HasOne("IISportSchool.Models.Service", "Service")
-                        .WithMany("_sections")
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("IISportSchool.Models.Teacher", "Teacher")
                         .WithMany()
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("IISportSchool.Models.Teacher", b =>
+                {
+                    b.HasOne("IISportSchool.Models.Service")
+                        .WithMany("Teachers")
+                        .HasForeignKey("ServiceId");
                 });
 #pragma warning restore 612, 618
         }
