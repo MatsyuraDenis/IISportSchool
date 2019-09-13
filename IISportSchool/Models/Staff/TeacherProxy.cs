@@ -7,9 +7,10 @@ namespace IISportSchool.Models
 {
     public class TeacherProxy : ITeacherInfo
     {
+        public int Id { get; set; }
         public int TeacherId { get; set; }
 
-        public string FullName { get; }
+        public string FullName { get; private set; }
 
         public string SectionName { get; private set; }
         private Teacher _teacher;
@@ -19,6 +20,7 @@ namespace IISportSchool.Models
             return string.Format("{0}, тренер секції '{1}'", FullName, SectionName );
         }
 
+        public TeacherProxy() { }
         public TeacherProxy(Teacher teacher)
         {
             FullName = string.Format("{0} {1}", teacher.Name, teacher.SecondName);
@@ -30,7 +32,12 @@ namespace IISportSchool.Models
         {
             return new TeacherProxy(teacher);
         }
-
+        public void AddTeacher(Teacher teacher)
+        {
+            FullName = string.Format("{0} {1}", teacher.Name, teacher.SecondName);
+            SectionName = teacher.SecondName;
+            TeacherId = teacher.Id;
+        }
         public Teacher LoadTeacher()
         {
             

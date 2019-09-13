@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using IISportSchool.Models;
+using IISportSchool.Models.FluentValidators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -28,7 +31,9 @@ namespace IISportSchool
                 options.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"]));
             services.AddScoped<ITeacherRepository, EFTeacherRepository>();
             services.AddScoped<IChildrenRepository, EFChildrenRepository>();
-            services.AddMvc();
+            services.AddMvc().AddFluentValidation();
+            services.AddTransient<IValidator<Section>, SectionValidator>();
+            services.AddTransient<IValidator<Department>, DepartmentValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,15 +47,15 @@ namespace IISportSchool
                 routes.MapRoute(
                     name: null,
                     template: "",
-                    defaults: new { controller = "Service", action = "Index" });
+                    defaults: new { controller = "Service", action = "DepartmentList" });
                 routes.MapRoute(
                     name: null,
                     template: "{controller}",
-                    defaults: new { controller = "Service", action = "Index" });
+                    defaults: new { controller = "Service", action = "DepartmentList" });
                 routes.MapRoute(
                     name: null,
                     template: "{controller}/{action}",
-                    defaults: new { controller = "Service", action = "Index" });
+                    defaults: new { controller = "Service", action = "DepartmentList" });
             });
         }
     }

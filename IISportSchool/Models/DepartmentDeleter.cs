@@ -18,16 +18,7 @@ namespace IISportSchool.Models
             var department = _context.Departments
                 .Include(d=>d.Sections.Select(s=>s.Groups))
                 .SingleOrDefault(d => d.Id == id);
-            var sections = _context.Sections.Where(s => s.DepartmentId == id).ToList();
-            List<Group> groups = new List<Group>();
-            foreach(var section in sections)
-            {
-                groups.AddRange(section.Groups);
-            }
-            DeleteGroups(groups);
-            DeleteSections(sections);
-            DeleteDepartment(department);
-            _context.SaveChanges();
+            Delete(department);
         }
 
         public void Delete(Department department)
@@ -38,9 +29,14 @@ namespace IISportSchool.Models
             {
                 groups.AddRange(section.Groups);
             }
-            DeleteGroups(groups);
-            DeleteSections(sections);
-            DeleteDepartment(department);
+            if (groups != null)
+                DeleteGroups(groups);
+
+            if (sections != null)
+                DeleteSections(sections);
+
+            if (department != null)
+                DeleteDepartment(department);
             _context.SaveChanges();
         }
 

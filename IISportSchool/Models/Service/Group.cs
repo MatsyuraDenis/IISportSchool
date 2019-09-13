@@ -7,7 +7,7 @@ namespace IISportSchool.Models
 {
     public class Group : SchoolService
     {
-        public TeacherProxy Teacher { get; set; }
+        public Teacher Teacher { get; set; }
         public int MinChildAge { get; set; }
         public int MaxChildAge { get; set; }
         public List<Children> Childrens { get; set; }
@@ -15,16 +15,27 @@ namespace IISportSchool.Models
         public int SectionId { get; set; }
         public int PricePerMonth { get; set; }
 
-        public override int NumberOfChildren => Childrens.Count();
+
+
+        public override List<Children> GetAllChildren()
+        {
+            return Childrens;
+        }
+
+        public override int GetNumberOfChildren()
+        {
+            return Childrens.Count();
+        }
+
         public override double GetServiceProfit()
         {
-            return PricePerMonth * NumberOfChildren;
+            return PricePerMonth * GetNumberOfChildren();
         }
 
         public override List<Worker> GetStaff()
         {
             List<Worker> workers = new List<Worker>();
-            workers.Add(Teacher.LoadTeacher());
+            workers.Add(Teacher);
             return workers;
         }
     }

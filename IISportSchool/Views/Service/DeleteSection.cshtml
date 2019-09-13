@@ -1,0 +1,10 @@
+﻿@model Section
+<div class="container text-center">
+    <h3>Ви дійсно хочете видалити дану секцію?</h3>
+    <div>
+        <h5>"@Model.Name"</h5>
+        <hr />
+        <a class="btn btn-danger" asp-action="DeleteSectionConfirmed" asp-controller="Service" asp-route-id="@Model.Id">Так</a>
+        <a class="btn btn-primary" asp-action="SectionDetails" asp-controller="Service" asp-route-id="@Model.Id">Ні</a>
+    </div>
+</div>

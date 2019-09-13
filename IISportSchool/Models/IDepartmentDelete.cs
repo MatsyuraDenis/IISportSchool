@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace IISportSchool.Models
 {
-    interface IDepartmentDelete
+    public interface IDepartmentDelete
     {
         void DeleteGroups(List<Group> groups);
         void DeleteSections(List<Section> sections);

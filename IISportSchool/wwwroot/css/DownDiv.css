@@ -1,0 +1,15 @@
+﻿.wrapper{
+
+}
+
+.inner{
+    display: inline-block;
+    vertical-align:bottom;
+}
+
+.wrapper:after {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: bottom;
+}

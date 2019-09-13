@@ -1,0 +1,15 @@
+﻿@model Section
+
+<div class="container">
+    <h4 class="text-center">Секція: "@Model.Name"</h4>
+    <hr />
+    <div class="">
+        <h5>Тренери: </h5>
+    </div>
+    <div>
+        <a class="btn btn-warning" asp-action="EditSection" asp-route-id="@Model.Id">Редагувати</a>
+        <a class="btn btn-danger" asp-action="DeleteSection" asp-route-id="@Model.Id">Видалити</a>
+    </div>
+</div>
+
+

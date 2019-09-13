@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Department>
+
+
+<div class="container">
+    <a asp-action="AddDepartment" class="btn btn-primary">Add new department</a>
+    <div class="row">
+        @foreach (var department in Model)
+        {
+            <div class="col">
+                <img src="https://picsum.photos/400/300" style="width:100%" alt="" class="img-fluid">
+            </div>
+            <div class="col">
+                <div>
+                    <h4>@department.Name</h4>
+                    <ul>
+                        @foreach (var sectione in department.Sections)
+                        {
+                            <li>@sectione.Name  <a asp-action="SectionDetails" asp-route-id="@sectione.Id">Деталі</a></li>
+                        }
+                    </ul>
+                </div>
+                <div>
+                    <a class="btn btn-info" asp-action="AddSection" asp-route-departmentId="@department.Id">Добавити секцію</a>
+                </div>
+            </div>
+
+            <div style="height: 10px; width: 100%;"></div>
+        }
+    </div>
+</div>

@@ -7,25 +7,32 @@ namespace IISportSchool.Models
 {
     public class Department : SchoolService
     {
-        public List<Section> Sections { get; }
+        public List<Section> Sections { get; set; }
         public Employee ResponsivePerson { get; }
-
-        public override int NumberOfChildren
-        {
-            get
-            {
-                int num = 0;
-                foreach(var section in Sections)
-                {
-                    num += section.NumberOfChildren;
-                }
-                return num;
-            }
-        }
 
         public void AddSection(Section section)
         {
             Sections.Add(section);
+        }
+
+        public override List<Children> GetAllChildren()
+        {
+            List<Children> childrens = new List<Children>();
+            foreach (var section in Sections)
+            {
+                childrens.AddRange(section.GetAllChildren());
+            }
+            return childrens;
+        }
+
+        public override int GetNumberOfChildren()
+        {
+            int num = 0;
+            foreach (var section in Sections)
+            {
+                num += section.GetNumberOfChildren();
+            }
+            return num;
         }
 
         public override double GetServiceProfit()

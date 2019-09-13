@@ -10,20 +10,6 @@ namespace IISportSchool.Models
         public Department Department { get; set; }
         public int DepartmentId { get; set; }
         public virtual List<Group> Groups { get; }
-        public override int NumberOfChildren
-        {
-            get
-            {
-                int num = 0;
-                foreach(var group in Groups)
-                {
-                    num += group.NumberOfChildren;
-                }
-                return num;
-            }
-        }
-
-
 
         public override double GetServiceProfit()
         {
@@ -58,6 +44,26 @@ namespace IISportSchool.Models
         {
             var group = Groups.SingleOrDefault(g => g.Id == id);
             Groups.Remove(group);
+        }
+
+        public override List<Children> GetAllChildren()
+        {
+            List<Children> childrens = new List<Children>();
+            foreach(var group in Groups)
+            {
+                childrens.AddRange(group.GetAllChildren());
+            }
+            return childrens;
+        }
+
+        public override int GetNumberOfChildren()
+        {
+            int num = 0;
+            foreach (var group in Groups)
+            {
+                num += group.GetNumberOfChildren();
+            }
+            return num;
         }
     }
 }
