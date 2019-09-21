@@ -40,5 +40,50 @@ namespace IISportSchool.Controllers
             _repository.Add(viewModel.Children);
             return RedirectToAction("Details", "Group", new { id = viewModel.Children.GroupId});
         }
+
+        public IActionResult Edit(int? id,int groupId, string groupName, int minAge, int maxAge)
+        {
+            if (id == null || id == 0)
+                return BadRequest();
+
+            var child = _repository.GetChildren((int)id);
+
+            if (child == null)
+                return NotFound();
+
+
+            AddChildViewModel viewModel = new AddChildViewModel
+            {
+                Children = child,
+                MinAge = minAge,
+                MaxAge = maxAge
+            };
+            ViewBag.Group = groupName;
+            return View(viewModel);
+        }
+        [HttpPost]
+        public IActionResult Edit(AddChildViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+                return View(viewModel);
+
+            _repository.Update(viewModel.Children);
+            return RedirectToAction("Details", "Group", new { id = viewModel.Children.GroupId });
+        }
+
+        public IActionResult Delete(int? id)
+        {
+            if (id == null && id == 0)
+                return BadRequest();
+
+            var child = _repository.GetChildren((int)id);
+
+            if (child == null)
+                return NotFound();
+
+            _repository.Delete(child);
+
+            return RedirectToAction("Details", "Group", new { id = child.GroupId });
+        }
     }
 }

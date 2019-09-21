@@ -10,7 +10,7 @@ namespace IISportSchool.Models
         IQueryable<Children> Children { get; }
         Children GetChildren(int id);
         Children Add(Children child);
-        Children Delete(int id);
+        Children Delete(Children child);
         Children Update(Children child);
     }
 }

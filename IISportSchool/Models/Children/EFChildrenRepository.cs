@@ -22,13 +22,9 @@ namespace IISportSchool.Models
             return child;
         }
 
-        public Children Delete(int id)
+        public Children Delete(Children child)
         {
-            var child = _context.Childrens.SingleOrDefault(c => c.Id == id);
-            if(child != null)
-            {
-                _context.Childrens.Remove(child);
-            }
+            _context.Childrens.Remove(child);
             _context.SaveChanges();
             return child;
         }
