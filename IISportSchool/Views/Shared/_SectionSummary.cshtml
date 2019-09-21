@@ -1,0 +1,10 @@
+﻿@model Section
+
+<div class="card card-size">
+    <img class="card-img-top img-fluid img-responsive" src="@Url.Content(Model.ImagePath)" alt=""/>
+    <hr/>
+    <div class="card-body">
+        <div class="card-title text-center font-weight-bold">@Model.Name</div>
+    </div>
+    <a asp-action="SectionDetails" asp-route-id="@Model.Id" class="stretched-link"></a>
+</div>

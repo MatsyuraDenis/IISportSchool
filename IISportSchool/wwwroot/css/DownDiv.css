@@ -1,15 +1,74 @@
-﻿.wrapper{
-
+﻿.img-responsive{
+    width: 100%;
+    height: auto;
 }
 
-.inner{
-    display: inline-block;
-    vertical-align:bottom;
+.space-10{
+    padding: 10px 10px;
 }
 
-.wrapper:after {
-    content: '';
-    display: inline-block;
+.card-size {
+    min-width: 50px;
+    max-width: 350px;
+    overflow: hidden;
+    min-height: 50px;
+    max-height: 500px;
+}
+
+.card:hover{
+    -webkit-box-shadow: -1px 9px 40px -12px rgba(0,0,0,0.75);
+    -moz-box-shadow: -1px 9px 40px -12px rgba(0,0,0,0.75);
+    box-shadow: -1px 9px 40px -12px rgba(0,0,0,0.75);
+    transition: 0.75s;
+}
+
+.main-img{
+    max-height: 400px;
+}
+
+.card-mini {
+    max-width: 250px;
+    overflow: hidden;
+    max-height: 300px;
+}
+
+.img-max-1000{
+    max-height: 1000px;
+}
+
+.img-max-900 {
+    max-height: 900px;
+}
+
+.img-max-750 {
+    max-height: 750px;
+}
+
+.img-max-500 {
+    max-height: 500px;
+}
+
+.img-max-300 {
+    max-height: 300px;
+}
+
+.img-max-250 {
+    max-height: 250px;
+}
+
+.max-w-250{
+    max-width: 250px;
+}
+
+.max-w-200 {
+    max-width: 200px;
+}
+
+.max-w-300 {
+    max-width: 300px;
+}
+
+.img-full{
+    width: 100%;
     height: 100%;
-    vertical-align: bottom;
 }

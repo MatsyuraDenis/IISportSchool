@@ -1,0 +1,12 @@
+﻿@model Department
+
+<div class="container">
+    <h2 class="text-center">Видаллення відділу</h2>
+
+    <h3>Ви впевнені у видаленні даного відділу?</h3>
+    <div>
+        <h4>@Model.Name</h4>
+        <hr />
+        <a class="btn btn-danger" asp-action="DeleteDepartmentConfirmed" asp-route-id="@Model.Id">Видалити</a>
+    </div>
+</div>

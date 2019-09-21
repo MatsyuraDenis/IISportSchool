@@ -1,0 +1,32 @@
+﻿@model Group
+
+<div class="container">
+    <h2 class="text-center">@Model.Name группа</h2>
+    <h4>Для дітей віком від @Model.MinChildAge до @Model.MinChildAge</h4>
+    @{
+        int childrenNumber = 1;
+    }
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>Ім'я</th>
+                <th>Фамілія</th>
+                <th>Вік</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var children in Model.Childrens)
+            {
+                <tr>
+                    <td>@childrenNumber</td>
+                    <td>@children.Name</td>
+                    <td>@children.SecondName</td>
+                    <td>@children.Age</td>
+                </tr>
+
+                childrenNumber++;
+            }
+        </tbody>
+    </table>
+</div>

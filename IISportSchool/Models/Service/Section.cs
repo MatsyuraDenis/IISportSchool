@@ -9,7 +9,8 @@ namespace IISportSchool.Models
     {
         public Department Department { get; set; }
         public int DepartmentId { get; set; }
-        public virtual List<Group> Groups { get; }
+        public virtual List<Group> Groups { get; set; }
+        public string Description { get; set; }
 
         public override double GetServiceProfit()
         {

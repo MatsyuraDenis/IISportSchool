@@ -1,0 +1,41 @@
+﻿@model HomeViewModel
+
+<section>
+    <div class="card img-fluid">
+        <img src="@Url.Content(Model.ImagePath)" class="card-img-top w-100 main-img" alt="Школа" />
+        <div class="card-img-overlay">
+            <h1 class="text-center text-white">@Model.SchoolName</h1>
+            <h3 class="text-center text-white">@Model.SchoolNameContinue</h3>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2 class="text-center m-5">Послуги @Model.SchoolName:</h2>
+    <div class="container">
+        <div class="row justify-content-center">
+            @foreach (var department in Model.Departments)
+            {
+                <div class="col py-2 max-w-300">
+                    @Html.Partial("_DepartmentCard", department)
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<div class="m-5"></div>
+
+<section>
+    <div class="card img-fluid overflow-hidden">
+        <img class="img-fluid img-max-1000 w-100" src="@Url.Content(@Model.StaffImage)" />
+        <div class="card-img-overlay">
+            <div class="row h-100">
+                <div class="col-sm-12 my-auto">
+                    <h2 class="text-center text-light">Наш персонал</h2>
+                    <h4 class="text-center text-light">@Model.StaffInfo</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

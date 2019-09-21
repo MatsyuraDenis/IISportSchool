@@ -5,13 +5,21 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
-    <link href="~/css/DownDiv.css" rel="stylesheet" />
     <link href="~/css/ValidationErrors.css" rel="stylesheet" />
+    <link href="~/css/DownDiv.css" rel="stylesheet" />
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
 </head>
 <body>
-    <div>
-        @RenderBody()
-    </div>
+        <header>
+            @Html.Partial("_NavBar")
+        </header>
+
+        <main>
+            <div>
+                @RenderBody()
+            </div>
+        </main>   
     @if (IsSectionDefined("Scripts"))
     {
         @RenderSection("Scripts", required: true);

@@ -31,31 +31,36 @@ namespace IISportSchool
                 options.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"]));
             services.AddScoped<ITeacherRepository, EFTeacherRepository>();
             services.AddScoped<IChildrenRepository, EFChildrenRepository>();
+            services.AddScoped<IServiceRepository, EFServiceRepository>();
+            services.AddScoped<IGroupRepository, GroupRepository>();
+            services.AddScoped<AbstractDepartmentDeleter, DepartmentDeleter>();
             services.AddMvc().AddFluentValidation();
             services.AddTransient<IValidator<Section>, SectionValidator>();
             services.AddTransient<IValidator<Department>, DepartmentValidator>();
+            services.AddTransient<IValidator<Group>, GroupValidation>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseDeveloperExceptionPage();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: null,
                     template: "",
-                    defaults: new { controller = "Service", action = "DepartmentList" });
+                    defaults: new { controller = "Home", action = "Index" });
                 routes.MapRoute(
                     name: null,
                     template: "{controller}",
-                    defaults: new { controller = "Service", action = "DepartmentList" });
+                    defaults: new { controller = "Home", action = "Index" });
                 routes.MapRoute(
                     name: null,
                     template: "{controller}/{action}",
-                    defaults: new { controller = "Service", action = "DepartmentList" });
+                    defaults: new { controller = "Home", action = "Index" });
+                routes.MapRoute(name: null, template: "{controller}/{action}/{id?}");
             });
         }
     }

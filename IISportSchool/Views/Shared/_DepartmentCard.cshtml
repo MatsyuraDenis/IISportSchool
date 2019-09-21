@@ -1,0 +1,10 @@
+﻿@model Department
+
+<div class="card">
+    <img class="img-fluid img-max-250" src="@Url.Content(@Model.ImagePath)"/>
+    <hr/>
+    <div class="card-body">
+        <div class="card-title text-center font-weight-bold">@Model.Name</div>
+    </div>
+    <a class="stretched-link" asp-action="DepartmentDetails" asp-controller="Service" asp-route-id="@Model.Id"></a>
+</div>

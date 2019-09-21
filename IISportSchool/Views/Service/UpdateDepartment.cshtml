@@ -1,0 +1,47 @@
+﻿@model Department
+
+
+    <div class="container">
+        <h2 class="text-center">@Model.Name</h2>
+
+        <h4 class="text-center">Редагування</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="UpdateDepartment">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ImagePath" class="control-label"></label>
+                        <input asp-for="ImagePath" class="form-control" />
+                        <span asp-validation-for="ImagePath" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-primary" type="submit" value="Зберегти"/>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label asp-for="ImagePath" class="control-label"></label>
+                    <input asp-for="ImagePath" class="form-control" />
+                    <span asp-validation-for="ImagePath" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div>
+            <a class="btn btn-info" asp-action="DepartmentList">До списку</a>
+            <a class="btn btn-info" asp-action="DepartmentDetails" asp-route-id="@Model.Id">Деталі</a>
+        </div>
+    </div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

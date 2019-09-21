@@ -7,27 +7,44 @@ using Microsoft.EntityFrameworkCore;
 using IISportSchool.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using IISportSchool.Models.FluentValidators;
+using System.IO;
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace IISportSchool.Controllers
 {
     public class ServiceController : Controller
     {
-        private ApplicationDbContext _context;
-        public ServiceController(ApplicationDbContext context)
+        AbstractDepartmentDeleter _deleter;
+        IServiceRepository _services;
+        public ServiceController(AbstractDepartmentDeleter deleter, IServiceRepository service)
         {
-            _context = context;
+            _deleter = deleter;
+            _services = service;
         }
         // GET: /<controller>/
         public IActionResult DepartmentList()
         {
-            return View(_context.Departments.Include(d=>d.Sections).ToList());
+            var dep = _services.Departments.Include(d => d.Sections).ToList();
+            return View(dep);
         }
+        public IActionResult DepartmentDetails(int? id)
+        {
+            if (id == null || id == 0)
+                return BadRequest();
 
+            var department = _services.GetDepartment((int)id);
+
+            if (department == null)
+                return NotFound();
+
+            return View(department);
+        }
         public IActionResult AddDepartment()
         {
-            return View();
+            Department department = new Department { ImagePath = @"~/images/departmentLogos/" };
+            return View(department);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddDepartment(Department department)
@@ -38,9 +55,53 @@ namespace IISportSchool.Controllers
             }
             if (department == null)
                 return BadRequest();
+            _services.CreateDepartment(department);
+            _services.Save();
 
-            _context.Departments.Add(department);
-            _context.SaveChanges();
+            return RedirectToAction("DepartmentList");
+        }
+
+        public IActionResult UpdateDepartment(int? id)
+        {
+            if (id == null || id == 0)
+                return BadRequest();
+
+            var department = _services.GetDepartment((int)id);
+
+            if (department == null)
+                return NotFound();
+
+            return View(department);
+        }
+        [HttpPost]
+        public IActionResult UpdateDepartment(Department department)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(department);
+            }
+
+            _services.UpdateDepartment(department);
+            _services.Save();
+            return RedirectToAction("DepartmentList");
+        }
+
+        public IActionResult DeleteDepartment(int? id)
+        {
+            if (id == null || id == 0)
+                return BadRequest();
+
+            var department = _services.Departments.SingleOrDefault(d => d.Id == id);
+
+            if (department == null)
+                return NotFound();
+
+            return View(department);
+        }
+
+        public IActionResult DeleteDepartmentConfirmed(int Id)
+        {
+            _deleter.DeleteDepartment(Id);
 
             return RedirectToAction("DepartmentList");
         }
@@ -49,9 +110,10 @@ namespace IISportSchool.Controllers
         {
             Section section = new Section
             {
-                DepartmentId = departmentId                
+                DepartmentId = departmentId,
+                ImagePath = @"~/images/sections/"
             };
-            ViewBag.Department = _context.Departments.SingleOrDefault(d => d.Id == departmentId);
+            ViewBag.Department = _services.GetDepartment(departmentId);
             //ViewBag.Departments = new SelectList(_context.Departments, "Id", "Name");
             return View(section);
         }
@@ -62,14 +124,14 @@ namespace IISportSchool.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.Department = _context.Departments.SingleOrDefault(d => d.Id == section.DepartmentId);
+                ViewBag.Department = _services.GetDepartment(section.DepartmentId);
                 return View(section);
             }
             if (section == null)
                 return BadRequest();
 
-            _context.Sections.Add(section);
-            _context.SaveChanges();
+            _services.CreateSection(section);
+            _services.Save();
             return RedirectToAction("DepartmentList");
         }
 
@@ -78,9 +140,7 @@ namespace IISportSchool.Controllers
             if (id == null)
                 return BadRequest();
 
-            var section = _context.Sections
-                .Include(s=>s.Department)
-                .SingleOrDefault(s => s.Id == id);
+            var section = _services.GetSection((int)id);
 
             if (section == null)
                 return NotFound();
@@ -92,7 +152,7 @@ namespace IISportSchool.Controllers
             if (id == null)
                 return BadRequest();
 
-            var section = _context.Sections
+            var section = _services.ListOfSections()
                 .Include(s => s.Department)
                 .SingleOrDefault(s => s.Id == id);
 
@@ -103,16 +163,39 @@ namespace IISportSchool.Controllers
         }
         public IActionResult DeleteSectionConfirmed(int? id)
         {
-            var section = _context.Sections
+            var section = _services.ListOfSections()
                 .Include(s => s.Department)
                 .SingleOrDefault(s => s.Id == id);
 
             if(section != null)
             {
-                _context.Sections.Remove(section);
-                _context.SaveChanges();
+                _services.DeleteSection(section);
+                _services.Save();
             }
 
+            return RedirectToAction("DepartmentList");
+        }
+
+        public IActionResult UpdateSection(int? id)
+        {
+            if (id == 0 || id == null)
+                return BadRequest();
+
+            var section = _services.GetSectionWithGroups((int)id);
+
+            if (section == null)
+                return NotFound();
+
+            if (string.IsNullOrEmpty(section.ImagePath))
+                section.ImagePath = @"images\sections\";
+
+            return View(section);
+        }
+        [HttpPost]
+        public IActionResult UpdateSection(Section section)
+        {
+            _services.UpdateSection(section);
+            _services.Save();
             return RedirectToAction("DepartmentList");
         }
     }
