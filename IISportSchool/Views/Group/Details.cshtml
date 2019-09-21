@@ -2,7 +2,7 @@
 
 <div class="container">
     <h2 class="text-center">@Model.Name группа</h2>
-    <h4>Для дітей віком від @Model.MinChildAge до @Model.MinChildAge</h4>
+    <h4>Для дітей віком від @Model.MinChildAge до @Model.MaxChildAge років</h4>
     @{
         int childrenNumber = 1;
     }
@@ -29,4 +29,15 @@
             }
         </tbody>
     </table>
+</div>
+
+
+<div class="container">
+    <a asp-action="Add" asp-controller="Children" 
+       asp-route-groupId="@Model.Id"
+       asp-route-groupName="@Model.Name"
+       asp-route-minAge="@Model.MinChildAge"
+       asp-route-maxAge="@Model.MaxChildAge">
+        Додати учня
+    </a>
 </div>

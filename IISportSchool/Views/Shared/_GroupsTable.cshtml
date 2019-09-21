@@ -12,16 +12,20 @@
     <tbody>
         @foreach (var group in Model)
         {
-            <tr>
-                <td>@group.Name</td>
-                <td>@group.MinChildAge</td>
-                <td>@group.MaxChildAge</td>
-                <td>@group.PricePerMonth</td>
-                <td>
-                    <a asp-action="Delete" asp-controller="Group" asp-route-id="@group.Id"
-                       class="btn btn-danger">Видалити</a>
-                </td>
-            </tr>
+        <tr>
+            <td>@group.Name</td>
+            <td>@group.MinChildAge</td>
+            <td>@group.MaxChildAge</td>
+            <td>@group.PricePerMonth</td>
+            <td>
+                <a asp-action="Details" asp-controller="Group" asp-route-id="@group.Id"
+                   class="btn btn-info">Редагувати</a>
+            </td>
+            <td>
+                <a asp-action="Delete" asp-controller="Group" asp-route-id="@group.Id"
+                   class="btn btn-danger">Видалити</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

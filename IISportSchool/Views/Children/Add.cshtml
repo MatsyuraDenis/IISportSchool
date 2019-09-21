@@ -1,0 +1,38 @@
+﻿@model AddChildViewModel
+
+<h2>група @ViewBag.Group</h2>
+
+<h4>Children</h4>
+<hr />
+<form asp-action="Add" asp-controller="Children">
+    <div class="row">
+        <div class="col-md-6 col-sm-8">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Children.Name" class="control-label">Ім'я</label>
+                <input asp-for="Children.Name" class="form-control" />
+                <span asp-validation-for="Children.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Children.SecondName" class="control-label">Фамілія</label>
+                <input asp-for="Children.SecondName" class="form-control" />
+                <span asp-validation-for="Children.SecondName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Children.Age" class="control-label">Вік(@Model.MinAge - @Model.MaxAge)</label>
+                <input asp-for="Children.Age" class="form-control" />
+                <span asp-validation-for="Children.Age" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="MaxAge">
+            <input type="hidden" asp-for="MinAge">
+            <input type="hidden" asp-for="Children.GroupId">
+        </div>
+    </div>
+    <div class="form-group">
+        <input  type="submit" value="Додати" class="btn btn-success" />
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
