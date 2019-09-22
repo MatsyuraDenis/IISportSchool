@@ -51,6 +51,7 @@ namespace IISportSchool.Models
         {
             Teacher teacher = new Teacher
             {
+
                 Name = viewModel.Name,
                 SecondName = viewModel.SecondName,
                 Salary = viewModel.Salary,

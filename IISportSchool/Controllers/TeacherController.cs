@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using IISportSchool.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -17,13 +19,17 @@ namespace IISportSchool.Controllers
         private IGroupRepository _groupRepository;
         private TeacherFactory _factory;
         private TeacherProxyFactory _proxyFactory;
+
+        private IHostingEnvironment _hostingEnviroment;
+
         public TeacherController(ITeacherRepository repository, IServiceRepository serviceRepository,
             IPositionRepository positionRepository, ApplicationDbContext context,
-            IGroupRepository groupRepository)
+            IGroupRepository groupRepository, IHostingEnvironment hostingEnviroment)
         {
             _repository = repository;
             _schoolServices = serviceRepository;
             _groupRepository = groupRepository;
+            _hostingEnviroment = hostingEnviroment;
             _proxyFactory = new TeacherProxyFactory(context);
             _positionFactory = new PositionFactory(positionRepository);
             _factory = new TeacherFactory(context, _positionFactory);
@@ -49,13 +55,27 @@ namespace IISportSchool.Controllers
         public IActionResult Create(TeacherViewModel viewModel)
         {
             if (!ModelState.IsValid)
+            {
+                viewModel.Sections = _schoolServices.ListOfSections().ToList();
                 return View(viewModel);
+            }
+                
+
+            string uniqueFileName = null;
+            if(viewModel.Photo != null)
+            {
+                string uploadsFolder = Path.Combine(_hostingEnviroment.WebRootPath, "images", "teachers");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + viewModel.Photo.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                viewModel.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+            }
             IPositionStrategy strategy = new PositionStrategy();
             string name = strategy.CreatePosition(viewModel.SectionId);
             var sectionName = _schoolServices.GetSection((int)viewModel.SectionId).Name;
             Teacher teacher = _factory.Create(viewModel);
             Position position = _positionFactory.GetPosition(name);
             teacher.Position = position;
+            teacher.PhotoPath = uniqueFileName;
             _repository.Add(teacher);
             return RedirectToAction("Index");
         }
@@ -76,6 +96,9 @@ namespace IISportSchool.Controllers
         [HttpPost]
         public IActionResult Update(UpdateteacherViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+                return View(viewModel);
+
             _repository.Update(viewModel);
             return RedirectToAction("Index");
         }

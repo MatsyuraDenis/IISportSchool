@@ -27,6 +27,7 @@ namespace IISportSchool.Models
                     Name = name
                 };
                 _repository.Add(position1);
+                position = position1;
             }
                 
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace IISportSchool.Models
         public string FullName { get; private set; }
 
         public string SectionName { get; private set; }
+        public string PhotoPath { get; set; }
         private Teacher _teacher;
 
         public string ShortInfo()
@@ -25,6 +27,7 @@ namespace IISportSchool.Models
             FullName = string.Format("{0} {1}", teacher.Name, teacher.SecondName);
             SectionName = teacher.SectionName;
             TeacherId = teacher.Id;
+            PhotoPath = teacher.PhotoPath;
         }
 
         public static TeacherProxy Create(Teacher teacher)

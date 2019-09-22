@@ -41,6 +41,8 @@ namespace IISportSchool
             services.AddTransient<IValidator<Group>, GroupValidation>();
             services.AddTransient<IValidator<AddChildViewModel>, ChildrenValidator>();
             services.AddTransient<IValidator<Teacher>, TeacherValidator>();
+            services.AddTransient<IValidator<TeacherViewModel>, TeacherViewModelValidator>();
+            services.AddTransient<IValidator<UpdateteacherViewModel>, UpdateTeacherViewModelValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
