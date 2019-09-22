@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace IISportSchool.Models
 {
-    public class Employee : Worker
+    public interface IPositionFactory
     {
+        Position GetPosition(string name);
     }
 }

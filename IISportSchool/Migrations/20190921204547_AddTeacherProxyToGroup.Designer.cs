@@ -4,14 +4,16 @@ using IISportSchool.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IISportSchool.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190921204547_AddTeacherProxyToGroup")]
+    partial class AddTeacherProxyToGroup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,17 +154,13 @@ namespace IISportSchool.Migrations
                     b.Property<string>("Discriminator")
                         .IsRequired();
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(25);
+                    b.Property<string>("Name");
 
                     b.Property<int?>("PositionId");
 
                     b.Property<int>("Salary");
 
-                    b.Property<string>("SecondName")
-                        .IsRequired()
-                        .HasMaxLength(25);
+                    b.Property<string>("SecondName");
 
                     b.Property<int>("YearsOfExperience");
 
@@ -193,15 +191,13 @@ namespace IISportSchool.Migrations
 
                     b.Property<int>("SectionId");
 
-                    b.Property<string>("SectionName");
-
                     b.HasIndex("GroupId")
                         .IsUnique()
                         .HasFilter("[GroupId] IS NOT NULL");
 
                     b.HasIndex("SectionId");
 
-                    b.ToTable("Teachers");
+                    b.ToTable("Teacher");
 
                     b.HasDiscriminator().HasValue("Teacher");
                 });

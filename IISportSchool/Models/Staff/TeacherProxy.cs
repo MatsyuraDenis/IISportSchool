@@ -17,14 +17,13 @@ namespace IISportSchool.Models
 
         public string ShortInfo()
         {
-            return string.Format("{0}, тренер секції '{1}'", FullName, SectionName );
+            return string.Format("{0}, тренер секції '{1}'", FullName, SectionName);
         }
-
         public TeacherProxy() { }
         public TeacherProxy(Teacher teacher)
         {
             FullName = string.Format("{0} {1}", teacher.Name, teacher.SecondName);
-            SectionName = teacher.SecondName;
+            SectionName = teacher.SectionName;
             TeacherId = teacher.Id;
         }
 
@@ -38,11 +37,9 @@ namespace IISportSchool.Models
             SectionName = teacher.SecondName;
             TeacherId = teacher.Id;
         }
-        public Teacher LoadTeacher()
+        public Teacher LoadTeacher(ITeacherRepository repo)
         {
-            
-            ApplicationDbContext context = new ApplicationDbContext();
-            _teacher = context.Teachers.SingleOrDefault(t => t.Id == TeacherId);
+            _teacher = repo.Teachers.SingleOrDefault(t => t.Id == TeacherId);
             return _teacher;
         }
     }

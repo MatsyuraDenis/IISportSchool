@@ -12,26 +12,74 @@ namespace IISportSchool.Controllers
     public class TeacherController : Controller
     {
         private ITeacherRepository _repository;
-        public TeacherController(ITeacherRepository _repository)
+        private IServiceRepository _schoolServices;
+        private IPositionFactory _positionFactory;
+        private IGroupRepository _groupRepository;
+        private TeacherFactory _factory;
+        private TeacherProxyFactory _proxyFactory;
+        public TeacherController(ITeacherRepository repository, IServiceRepository serviceRepository,
+            IPositionRepository positionRepository, ApplicationDbContext context,
+            IGroupRepository groupRepository)
         {
-            this._repository = _repository;
+            _repository = repository;
+            _schoolServices = serviceRepository;
+            _groupRepository = groupRepository;
+            _proxyFactory = new TeacherProxyFactory(context);
+            _positionFactory = new PositionFactory(positionRepository);
+            _factory = new TeacherFactory(context, _positionFactory);
         }
         // GET: /<controller>/
         public IActionResult Index()
         {
-            return View(_repository.Teachers.ToList());
+            List<TeacherProxy> proxies = new List<TeacherProxy>();
+            foreach (var teacher in _repository.Teachers)
+                proxies.Add(_proxyFactory.Get(teacher.Id));
+            return View(proxies);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            TeacherViewModel viewModel = new TeacherViewModel();
+            viewModel.Sections = _schoolServices.ListOfSections().ToList();
+            return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Create(Teacher teacher)
+        public IActionResult Create(TeacherViewModel viewModel)
         {
-            _repository.Add(teacher);
+            if (!ModelState.IsValid)
+                return View(viewModel);
+
+            var sectionName = _schoolServices.GetSection((int)viewModel.SectionId).Name;
+            _repository.Add(_factory.Create(viewModel));
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Update(int? id)
+        {
+            if (id == null || id == 0)
+                return BadRequest();
+
+            var teacher = _repository.GetTeacher((int)id);
+            if (teacher == null)
+                return NotFound();
+            ViewBag.Groups = _groupRepository.Groups.Where(g => g.SectionId == teacher.SectionId);
+
+            TeacherViewModel teacherViewModel = _factory.CreateViewModel(teacher);
+            return View(teacherViewModel);
+        }
+        [HttpPost]
+        public IActionResult Update(TeacherViewModel viewModel)
+        {
+            var teacher = _factory.Update(viewModel);
+            _repository.Update(teacher);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Delete(Teacher teacher)
+        {
+            _repository.Delete(teacher);
             return RedirectToAction("Index");
         }
     }

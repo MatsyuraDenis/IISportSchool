@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace IISportSchool.Models
 {
-    public class Employee : Worker
+    public class SeedGroups
     {
     }
 }

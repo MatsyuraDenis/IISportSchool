@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 
 namespace IISportSchool.Models
 {
-    public class Employee : Worker
+    public class DefaultSectionName
     {
+        public const string Sport = "Спорт";
+        public const string Dance = "Танці";
     }
 }

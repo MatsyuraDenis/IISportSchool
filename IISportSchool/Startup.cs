@@ -33,12 +33,14 @@ namespace IISportSchool
             services.AddScoped<IChildrenRepository, EFChildrenRepository>();
             services.AddScoped<IServiceRepository, EFServiceRepository>();
             services.AddScoped<IGroupRepository, GroupRepository>();
+            services.AddScoped<IPositionRepository, EFPositionRepository>();
             services.AddScoped<AbstractDepartmentDeleter, DepartmentDeleter>();
             services.AddMvc().AddFluentValidation();
             services.AddTransient<IValidator<Section>, SectionValidator>();
             services.AddTransient<IValidator<Department>, DepartmentValidator>();
             services.AddTransient<IValidator<Group>, GroupValidation>();
             services.AddTransient<IValidator<AddChildViewModel>, ChildrenValidator>();
+            services.AddTransient<IValidator<Teacher>, TeacherValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,6 +65,10 @@ namespace IISportSchool
                     defaults: new { controller = "Home", action = "Index" });
                 routes.MapRoute(name: null, template: "{controller}/{action}/{id?}");
             });
+
+            SeedPositions.EnsurePopulated(app);
+            SeedDepartments.EnsurePopulated(app);
+            SeedSections.EnsurePopulated(app);
         }
     }
 }

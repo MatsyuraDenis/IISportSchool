@@ -8,6 +8,7 @@ namespace IISportSchool.Models
     public class Group : SchoolService
     {
         public Teacher Teacher { get; set; }
+        public virtual TeacherProxy TeacherProxy { get; set; }
         public int MinChildAge { get; set; }
         public int MaxChildAge { get; set; }
         public List<Children> Childrens { get; set; }
@@ -35,7 +36,8 @@ namespace IISportSchool.Models
         public override List<Worker> GetStaff()
         {
             List<Worker> workers = new List<Worker>();
-            workers.Add(Teacher);
+            if (Teacher != null)
+                workers.Add(Teacher);
             return workers;
         }
     }

@@ -1,21 +1,39 @@
-﻿@model IEnumerable<Teacher>
+﻿@model IEnumerable<TeacherProxy>
 
-<table class="table">
-    <thead class="thead-dark">
+
+@*<div class="row">
+    @foreach (var teacher in Model)
+    {
+        <div class="col-lg-10 row">
+            <div class="col-md-6">
+                <h5 class="text-center">@teacher.FullName</h5>
+                <span class="text-center">Тренер секції @teacher.SectionName</span>
+            </div>
+        </div>
+    }
+</div>*@
+
+<table class="table table-bordered">
+    <thead>
         <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Salary</th>
-            <th scope="col">Years of experience</th>
+            <th>Викладач</th>
+            <th>Секція</th>
         </tr>
     </thead>
-    <tbody >
+
+    <tbody>
         @foreach(var teacher in Model)
         {
             <tr>
-                <td>@teacher.Name</td>
-                <td>@teacher.Salary</td>
-                <td>@teacher.YearsOfExperience</td>
+                <td>@teacher.FullName</td>
+                <td>@teacher.SectionName</td>
+                <td style="width:5%"><a asp-action="Update" asp-route-id="@teacher.TeacherId" class="btn btn-info">Редагувати</a></td>
+                <td style="width:5%"><a asp-action="Delete" asp-route-id="@teacher.TeacherId" class="btn btn-danger">Видалити</a></td>
             </tr>
         }
     </tbody>
 </table>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>

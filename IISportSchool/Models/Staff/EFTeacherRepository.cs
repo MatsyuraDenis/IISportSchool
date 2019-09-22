@@ -22,15 +22,17 @@ namespace IISportSchool.Models
             return teacher;
         }
 
-        public Teacher Delete(int id)
+        public Teacher Delete(Teacher teacher)
         {
-            Teacher teacher = _context.Teachers.SingleOrDefault(t=>t.Id == id);
-            if(teacher != null)
-            {
-                _context.Teachers.Remove(teacher);
-                _context.SaveChanges();
-            }
+            _context.Teachers.Remove(teacher);
+            _context.SaveChanges();
             return teacher;
+        }
+
+        public Teacher Delete(TeacherProxy proxy)
+        {
+            var teacher = proxy.LoadTeacher(this);
+            return Delete(teacher);
         }
 
         public Teacher GetTeacher(int id)

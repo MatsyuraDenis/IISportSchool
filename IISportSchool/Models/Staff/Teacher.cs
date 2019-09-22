@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,12 +8,13 @@ namespace IISportSchool.Models
 {
     public class Teacher : Worker, ITeacherInfo
     {
-        public string FullName => string.Format("{0} {1}", Name, SecondName);
-        public Group Group { get; set; }
+        public string FullName => string.Format("{0} {1}", SecondName, Name);
+        public virtual Group Group { get; set; }
         public int? GroupId { get; set; }
+        public virtual Section Section { get; set; }
+        public int SectionId { get; set; }
 
         public string SectionName { get; private set; }
-
         public Teacher() { }
         public Teacher(string name, string secondName, int salary, int yearOfExperiance, string sectionName) 
         {
@@ -21,23 +23,17 @@ namespace IISportSchool.Models
             Salary = salary;
             YearsOfExperience = yearOfExperiance;
             SecondName = sectionName;
-        }
-        public void ChangeSection(string sectionName)
-        {
-            SectionName = sectionName;
-        }
-        public void ChangeSection(Section section)
-        {
-            ChangeSection(section.Name);
-        }
-        public string CreateFullName()
-        {
-            return string.Format("{0} {1}", SecondName, Name);
+            SectionName = Section.Name;
         }
 
         public string ShortInfo()
         {
-            return string.Format("{0}, тренер секції '{1}'", FullName, SectionName);
+            return string.Format("{0}, тренер секції {1}", FullName, SectionName);
+        }
+
+        public void SetSectionName(string name)
+        {
+            SectionName = name;
         }
     }
 }
