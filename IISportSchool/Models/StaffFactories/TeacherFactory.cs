@@ -20,7 +20,6 @@ namespace IISportSchool.Models
         {
             TeacherViewModel viewModel = new TeacherViewModel
             {
-                Id = teacher.Id,
                 Name = teacher.Name,
                 SecondName = teacher.SecondName,
                 Salary = teacher.Salary,
@@ -29,6 +28,21 @@ namespace IISportSchool.Models
             };
 
             viewModel.Sections = _context.Sections.ToList();
+
+            return viewModel;
+        }
+        public UpdateteacherViewModel UpdateViewModel(Teacher teacher)
+        {
+            UpdateteacherViewModel viewModel = new UpdateteacherViewModel
+            {
+                Name = teacher.Name,
+                SecondName = teacher.SecondName,
+                Salary = teacher.Salary,
+                YearsOfExperience = teacher.YearsOfExperience,
+                SectionName = teacher.SectionName,
+                GroupId = teacher.GroupId,
+                Groups = _context.Groups.Where(g => g.SectionId == teacher.SectionId).ToList()
+            };
 
             return viewModel;
         }
@@ -49,20 +63,16 @@ namespace IISportSchool.Models
             return teacher;
         }
 
-        public Teacher Update(TeacherViewModel viewModel)
+        public Teacher Update(UpdateteacherViewModel viewModel)
         {
             Teacher teacher = new Teacher
             {
-                Id = viewModel.Id,
                 Name = viewModel.Name,
                 SecondName = viewModel.SecondName,
                 Salary = viewModel.Salary,
                 YearsOfExperience = viewModel.YearsOfExperience,
-                SectionId = viewModel.SectionId,
                 Position = _positionFactory.GetPosition(DefaultPositions.Teacher)
             };
-
-            teacher.SetSectionName(_context.Sections.Single(s => s.Id == viewModel.SectionId).Name);
             return teacher;
         }
     }

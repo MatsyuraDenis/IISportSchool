@@ -11,13 +11,18 @@ namespace IISportSchool.Controllers
     public class GroupController : Controller
     {
         IGroupRepository _repository;
-        public GroupController(IGroupRepository repository)
+        ITeacherRepository _teachers;
+        TeacherProxyFactory _teacherProxyFactory;
+        public GroupController(IGroupRepository repository, ITeacherRepository teacher, ApplicationDbContext context)
         {
             _repository = repository;
+            _teachers = teacher;
+            _teacherProxyFactory = new TeacherProxyFactory(context);
         }
         public IActionResult Index()
         {
-            return View(_repository.Groups);
+            var groups = _repository.Groups;
+            return View(groups);
         }
 
         public IActionResult Details(int? id)
@@ -61,12 +66,12 @@ namespace IISportSchool.Controllers
 
             return View(group);
         }
-
+        [HttpPost]
         public IActionResult Update(Group group)
         {
             _repository.Update(group);
             _repository.Save();
-            return RedirectToAction("Service", "SectionDetails", new { id = group.SectionId });
+            return RedirectToAction("UpdateSection", "Service", new { id = group.SectionId });
         }
 
         public IActionResult Delete(int? id)

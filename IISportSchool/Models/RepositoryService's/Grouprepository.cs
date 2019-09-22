@@ -47,13 +47,20 @@ namespace IISportSchool.Models
 
         public Group Get(int id)
         {
-            var group = _context.Groups.Include(gr => gr.Childrens).Include(gr=>gr.Teacher).SingleOrDefault(g => g.Id == id);
+            var group = _context.Groups.Include(gr => gr.Childrens).SingleOrDefault(g => g.Id == id);
             return group;
         }
 
         public void Update(Group group)
         {
-            _context.Entry(group).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            var dbGroup = Get(group.Id);
+            if (dbGroup != null)
+            {
+                dbGroup.MaxChildAge = group.MaxChildAge;
+                dbGroup.MinChildAge = group.MinChildAge;
+                dbGroup.PricePerMonth = group.PricePerMonth;
+                dbGroup.Name = group.Name;
+            }
         }
 
         public void Save()

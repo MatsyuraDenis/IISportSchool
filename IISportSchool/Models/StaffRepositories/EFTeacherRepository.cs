@@ -9,9 +9,11 @@ namespace IISportSchool.Models
     public class EFTeacherRepository : ITeacherRepository
     {
         private ApplicationDbContext _context;
+        TeacherProxyFactory _proxyFactory;
         public EFTeacherRepository(ApplicationDbContext context)
         {
             _context = context;
+            _proxyFactory = new TeacherProxyFactory(context);
         }
         public IQueryable<Teacher> Teachers => _context.Teachers;
 
@@ -46,6 +48,19 @@ namespace IISportSchool.Models
             dbTeacher.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.SaveChanges();
             return teacher;
+        }
+
+        public Teacher Update(UpdateteacherViewModel teacher)
+        {
+            var dbTeacher = _context.Teachers.SingleOrDefault(t => t.Id == teacher.Id);
+            dbTeacher.Name = teacher.Name;
+            dbTeacher.SecondName = teacher.SecondName;
+            dbTeacher.Salary = teacher.Salary;
+            dbTeacher.YearsOfExperience = teacher.YearsOfExperience;
+            var proxy = _proxyFactory.Get(dbTeacher.Id);
+            var group = _context.Groups.SingleOrDefault(g => g.Id == teacher.GroupId);
+            _context.SaveChanges();
+            return dbTeacher;
         }
     }
 }

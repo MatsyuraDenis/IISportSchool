@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190922140906_addTeacherProxyIdToGroup.cs" />
+    <Compile Remove="Migrations\20190922140906_addTeacherProxyIdToGroup.Designer.cs" />
+    <Compile Remove="Migrations\20190922141027_addTeacherProxyIdToGroup.cs" />
+    <Compile Remove="Migrations\20190922141027_addTeacherProxyIdToGroup.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="8.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />

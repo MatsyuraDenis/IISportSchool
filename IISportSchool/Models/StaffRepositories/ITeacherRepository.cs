@@ -11,6 +11,7 @@ namespace IISportSchool.Models
         Teacher GetTeacher(int id);
         Teacher Add(Teacher teacher);
         Teacher Update(Teacher teacher);
+        Teacher Update(UpdateteacherViewModel teacher);
         Teacher Delete(Teacher teacher);
         Teacher Delete(TeacherProxy proxy);
     }

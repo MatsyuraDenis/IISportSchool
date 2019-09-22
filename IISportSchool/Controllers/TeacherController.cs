@@ -50,9 +50,13 @@ namespace IISportSchool.Controllers
         {
             if (!ModelState.IsValid)
                 return View(viewModel);
-
+            IPositionStrategy strategy = new PositionStrategy();
+            string name = strategy.CreatePosition(viewModel.SectionId);
             var sectionName = _schoolServices.GetSection((int)viewModel.SectionId).Name;
-            _repository.Add(_factory.Create(viewModel));
+            Teacher teacher = _factory.Create(viewModel);
+            Position position = _positionFactory.GetPosition(name);
+            teacher.Position = position;
+            _repository.Add(teacher);
             return RedirectToAction("Index");
         }
 
@@ -64,16 +68,15 @@ namespace IISportSchool.Controllers
             var teacher = _repository.GetTeacher((int)id);
             if (teacher == null)
                 return NotFound();
-            ViewBag.Groups = _groupRepository.Groups.Where(g => g.SectionId == teacher.SectionId);
 
-            TeacherViewModel teacherViewModel = _factory.CreateViewModel(teacher);
+            UpdateteacherViewModel teacherViewModel = _factory.UpdateViewModel(teacher);
             return View(teacherViewModel);
         }
+
         [HttpPost]
-        public IActionResult Update(TeacherViewModel viewModel)
+        public IActionResult Update(UpdateteacherViewModel viewModel)
         {
-            var teacher = _factory.Update(viewModel);
-            _repository.Update(teacher);
+            _repository.Update(viewModel);
             return RedirectToAction("Index");
         }
 

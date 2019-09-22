@@ -21,7 +21,14 @@ namespace IISportSchool.Models
         {
             var position = positions[name.ToLower()] as Position;
             if (position == null)
-                _repository.Add(position);
+            {
+                Position position1 = new Position
+                {
+                    Name = name
+                };
+                _repository.Add(position1);
+            }
+                
 
             return position;
         }

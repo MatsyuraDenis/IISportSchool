@@ -1,4 +1,4 @@
-﻿@model TeacherViewModel
+﻿@model UpdateteacherViewModel
 
 
 <h3 class="text-center">@Model.Name @Model.SecondName, секція @Model.SectionName</h3>
@@ -7,11 +7,6 @@
     <div class="col-md-4">
         <form asp-action="Update">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="SectionId">Група</label>
-                <select asp-for="SectionId" asp-items="@(new SelectList(ViewBag.Groups, "Id", "Name"))" class="form-control"></select>
-                <span asp-validation-for="SectionId"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -32,8 +27,10 @@
                 <input asp-for="YearsOfExperience" class="form-control" />
                 <span asp-validation-for="YearsOfExperience" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="SectionName" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Зберегти" class="btn btn-success" />

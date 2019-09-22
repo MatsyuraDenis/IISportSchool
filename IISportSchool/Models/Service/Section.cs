@@ -11,11 +11,11 @@ namespace IISportSchool.Models
         public int DepartmentId { get; set; }
         public virtual List<Group> Groups { get; set; }
         public string Description { get; set; }
-
+        public List<Teacher> Teachers { get; set; }
         public override double GetServiceProfit()
         {
             double profit = 0;
-            foreach(var group in Groups)
+            foreach (var group in Groups)
             {
                 profit += group.GetServiceProfit();
             }
@@ -25,10 +25,9 @@ namespace IISportSchool.Models
         public override List<Worker> GetStaff()
         {
             List<Worker> workers = new List<Worker>();
-            foreach(var group in Groups)
-            {
-                workers.AddRange(group.GetStaff());
-            }
+
+            workers.AddRange(Teachers);
+
             return workers;
         }
 
@@ -39,7 +38,7 @@ namespace IISportSchool.Models
         public void RemoveGroup(string name)
         {
             var group = Groups.SingleOrDefault(g => g.Name == name);
-            Groups.Remove(group);   
+            Groups.Remove(group);
         }
         public void RemoveGroup(int id)
         {
@@ -50,7 +49,7 @@ namespace IISportSchool.Models
         public override List<Children> GetAllChildren()
         {
             List<Children> childrens = new List<Children>();
-            foreach(var group in Groups)
+            foreach (var group in Groups)
             {
                 childrens.AddRange(group.GetAllChildren());
             }

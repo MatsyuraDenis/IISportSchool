@@ -1,0 +1,59 @@
+﻿@model InfoViewModel
+
+<div class="container">
+    <h5 class="text-center">Усі учні</h5>
+    @{
+        int childrenNumber = 1;
+    }
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>Ім'я</th>
+                <th>Фамілія</th>
+                <th>Вік</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var children in Model.Childrens)
+            {
+                <tr>
+                    <td>@childrenNumber</td>
+                    <td>@children.Name</td>
+                    <td>@children.SecondName</td>
+                    <td>@children.Age</td>
+                </tr>
+                childrenNumber++;
+            }
+        </tbody>
+    </table>
+
+    <h5 class="text-center">Персонал</h5>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Ім'я</th>
+                <th>Фамілія</th>
+                <th>Зарплата</th>
+                <th>Стаж</th>
+                <th>Посада</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var teacher in Model.Workers)
+            {
+                <tr>
+                    <td>@teacher.Name</td>
+                    <td>@teacher.SecondName</td>
+                    <td>@teacher.Salary</td>
+                    <td>@teacher.YearsOfExperience</td>
+                    <td>@teacher.Position.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h5>Дохід: @Model.Profit</h5>
+    <h5>Зарплати: @Model.Salaries</h5>
+</div>
+
