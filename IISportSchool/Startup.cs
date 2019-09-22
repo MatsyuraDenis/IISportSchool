@@ -69,6 +69,7 @@ namespace IISportSchool
             SeedPositions.EnsurePopulated(app);
             SeedDepartments.EnsurePopulated(app);
             SeedSections.EnsurePopulated(app);
+            SeedGroups.EnsurePopulated(app);
         }
     }
 }

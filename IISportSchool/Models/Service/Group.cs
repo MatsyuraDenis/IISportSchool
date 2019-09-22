@@ -16,7 +16,19 @@ namespace IISportSchool.Models
         public int SectionId { get; set; }
         public int PricePerMonth { get; set; }
 
+        public Group(string name, int minChildAge, int maxChildAge, int sectionId, int pricePerMonth)
+        {
+            Name = name;
+            MinChildAge = minChildAge;
+            MaxChildAge = maxChildAge;
+            SectionId = sectionId;
+            PricePerMonth = pricePerMonth;
+        }
 
+        public Group()
+        {
+
+        }
 
         public override List<Children> GetAllChildren()
         {
