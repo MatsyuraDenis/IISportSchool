@@ -1,8 +1,12 @@
 ﻿@model IEnumerable<Department>
 
-
+<div class="m-2"></div>>
 <div class="container">
-    <a asp-action="AddDepartment" class="btn btn-primary">Add new department</a>
+    @if (signInManager.IsSignedIn(User) && User.IsInRole(DefaultRoles.Admin))
+    {
+        <a asp-action="AddDepartment" class="btn btn-primary">Добавити відділ</a>
+    }
+
     <div class="row">
         @foreach (var department in Model)
         {
@@ -10,7 +14,7 @@
                 @if (!string.IsNullOrEmpty(department.ImagePath))
                 {
                     <a asp-action="DepartmentDetails" asp-route-id="@department.Id">
-                        <img src="@Url.Content(@department.ImagePath)" alt="" class="img-fluid img-responsive" />
+                        <img src="@Url.Content(@department.ImagePath)" alt="" class="img-fluid img-responsive card1" />
                     </a>
                 }
             </div>
@@ -24,9 +28,12 @@
                         }
                     </ul>
                 </div>
-                <div>
-                    <a class="btn btn-info" asp-action="AddSection" asp-route-departmentId="@department.Id">Добавити секцію</a>
-                </div>
+                @if (signInManager.IsSignedIn(User) && User.IsInRole(DefaultRoles.Admin))
+                {
+                    <div>
+                        <a class="btn btn-info" asp-action="AddSection" asp-route-departmentId="@department.Id">Добавити секцію</a>
+                    </div>
+                }
             </div>
             <div style="height: 10px; width: 100%;"></div>
         }

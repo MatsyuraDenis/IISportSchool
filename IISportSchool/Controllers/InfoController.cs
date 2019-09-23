@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using IISportSchool.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IISportSchool.Controllers
 {
+    [Authorize(Roles = DefaultRoles.Admin)]
     public class InfoController : Controller
     {
         ApplicationDbContext _context;

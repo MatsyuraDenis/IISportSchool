@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using IISportSchool.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,6 +44,8 @@ namespace IISportSchool.Controllers
             return View(proxies);
         }
 
+
+        [Authorize(Roles = DefaultRoles.Admin)]
         [HttpGet]
         public IActionResult Create()
         {
@@ -51,6 +54,8 @@ namespace IISportSchool.Controllers
             return View(viewModel);
         }
 
+
+        [Authorize(Roles = DefaultRoles.Admin)]
         [HttpPost]
         public IActionResult Create(TeacherViewModel viewModel)
         {
@@ -80,6 +85,8 @@ namespace IISportSchool.Controllers
             return RedirectToAction("Index");
         }
 
+
+        [Authorize(Roles = DefaultRoles.Admin)]
         public IActionResult Update(int? id)
         {
             if (id == null || id == 0)
@@ -93,6 +100,8 @@ namespace IISportSchool.Controllers
             return View(teacherViewModel);
         }
 
+
+        [Authorize(Roles = DefaultRoles.Admin)]
         [HttpPost]
         public IActionResult Update(UpdateteacherViewModel viewModel)
         {
@@ -103,6 +112,8 @@ namespace IISportSchool.Controllers
             return RedirectToAction("Index");
         }
 
+
+        [Authorize(Roles = DefaultRoles.Admin)]
         public IActionResult Delete(Teacher teacher)
         {
             _repository.Delete(teacher);

@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using IISportSchool.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IISportSchool.Controllers
 {
+    [Authorize(Roles = DefaultRoles.Admin)]
     public class GroupController : Controller
     {
         IGroupRepository _repository;

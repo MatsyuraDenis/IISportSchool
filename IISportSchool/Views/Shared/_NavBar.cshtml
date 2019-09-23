@@ -10,15 +10,25 @@
     </button>
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav">
+
             <li class="nav-item">
                 <a class="nav-link" asp-action="DepartmentList" asp-controller="Service">Послуги</a>
             </li>
+
             <li class="nav-item">
                 <a class="nav-link" asp-action="Index" asp-controller="Teacher">Викладачі</a>
             </li>
+
+            @if(signInManager.IsSignedIn(User) && User.IsInRole(DefaultRoles.Admin))
+            { 
             <li class="nav-item">
                 <a class="nav-link" asp-action="Index" asp-controller="Info">Інформація</a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-action="ListRoles" asp-controller="Administration">Ролі</a>
+            </li>
+            }
         </ul>
 
         <ul class="navbar-nav ml-auto">

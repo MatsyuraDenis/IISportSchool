@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IISportSchool.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IISportSchool.Controllers
@@ -20,6 +21,7 @@ namespace IISportSchool.Controllers
             return View(_repository.Children);
         }
 
+        [Authorize(Roles = DefaultRoles.Admin)]
         public IActionResult Add(int groupId, string groupName, int minAge, int maxAge)
         {
             AddChildViewModel viewModel = new AddChildViewModel
@@ -31,6 +33,8 @@ namespace IISportSchool.Controllers
             ViewBag.Group = groupName;
             return View(viewModel);
         }
+
+        [Authorize(Roles = DefaultRoles.Admin)]
         [HttpPost]
         public IActionResult Add(AddChildViewModel viewModel)
         {
@@ -41,6 +45,7 @@ namespace IISportSchool.Controllers
             return RedirectToAction("Details", "Group", new { id = viewModel.Children.GroupId});
         }
 
+        [Authorize(Roles = DefaultRoles.Admin)]
         public IActionResult Edit(int? id,int groupId, string groupName, int minAge, int maxAge)
         {
             if (id == null || id == 0)
@@ -61,6 +66,8 @@ namespace IISportSchool.Controllers
             ViewBag.Group = groupName;
             return View(viewModel);
         }
+
+        [Authorize(Roles = DefaultRoles.Admin)]
         [HttpPost]
         public IActionResult Edit(AddChildViewModel viewModel)
         {
@@ -71,6 +78,8 @@ namespace IISportSchool.Controllers
             return RedirectToAction("Details", "Group", new { id = viewModel.Children.GroupId });
         }
 
+
+        [Authorize(Roles = DefaultRoles.Admin)]
         public IActionResult Delete(int? id)
         {
             if (id == null && id == 0)

@@ -1,0 +1,24 @@
+﻿@model CreateRoleViewModel
+@{
+    ViewData["Title"] = "Створення ролі";
+}
+
+<h2 class="text-center">Створення ролі</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="RoleName"></label>
+                    <input asp-for="RoleName" class="form-control"/>
+                    <span asp-validation-for="RoleName"></span>
+                </div>
+
+                <button class="btn btn-success" type="submit">Створити йп</button>
+            </form>
+        </div>
+    </div>
+</div>

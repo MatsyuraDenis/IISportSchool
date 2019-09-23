@@ -14,9 +14,12 @@
             }
         </div>
         <div>
-            <a class="btn btn-primary" asp-action="UpdateDepartment" asp-route-id="@Model.Id">Редагувати</a> |
             <a class="btn btn-info" asp-action="DepartmentList">Список усіх відділів</a>
-            <a class="btn btn-warning float-right" asp-action="DeleteDepartment" asp-route-id="@Model.Id">Видалити</a>
+            @if (signInManager.IsSignedIn(User) && User.IsInRole(DefaultRoles.Admin))
+            {
+                <a class="btn btn-primary" asp-action="UpdateDepartment" asp-route-id="@Model.Id">Редагувати</a>
+                <a class="btn btn-warning float-right" asp-action="DeleteDepartment" asp-route-id="@Model.Id">Видалити</a>
+            }
         </div>
     </div>
 </div>

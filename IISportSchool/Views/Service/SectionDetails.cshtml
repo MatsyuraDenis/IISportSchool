@@ -5,17 +5,23 @@
         <hr />
         <div class="row">
             <div class="col-6">
-                <h5>@Model.Description</h5>  
+                <h5>@Model.Description</h5>
             </div>
             <div class="col-6">
                 <img src="@Model.ImagePath" class="img-fluid img-responsive" asp-append-version="true" />
             </div>
         </div>
         <div>
-            <a class="btn btn-warning" asp-action="UpdateSection" asp-route-id="@Model.Id">Редагувати</a>
-            <a class="btn btn-danger" asp-action="DeleteSection" asp-route-id="@Model.Id">Видалити</a>
+            <a asp-action="DepartmentDetails" asp-route-id="@Model.DepartmentId" class="btn btn-info"> До відділу</a>
+            @if (signInManager.IsSignedIn(User) && User.IsInRole(DefaultRoles.Admin))
+            {
+
+                <a class="btn btn-warning" asp-action="UpdateSection" asp-route-id="@Model.Id">Редагувати</a>
+                <a class="btn btn-danger" asp-action="DeleteSection" asp-route-id="@Model.Id">Видалити</a>
+
+            }
         </div>
-    </div>
+        </div>
 </div>
 
 

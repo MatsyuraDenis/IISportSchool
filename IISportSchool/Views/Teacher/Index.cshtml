@@ -9,13 +9,16 @@
         {
             <div class="col-md-5 row m-4">
                 <div class="col-sm-6">
-                    <img src="@photoPath@teacher.PhotoPath" class="img-fluid rounded-circle float-right"/>
+                    <img src="@photoPath@teacher.PhotoPath" class="img-fluid rounded-circle float-right" />
                 </div>
                 <div class="col-sm-6">
                     <h5>@teacher.FullName</h5>
                     <span>Тренер секції @teacher.SectionName</span>
                     <br />
-                    <a class="btn btn-danger float-left" asp-action="Delete" asp-route-id="@teacher.TeacherId">Видалити</a>
+                    @if (signInManager.IsSignedIn(User) && User.IsInRole(DefaultRoles.Admin))
+                    {
+                        <a class="btn btn-danger float-left" asp-action="Delete" asp-route-id="@teacher.TeacherId">Видалити</a>
+                    }
                 </div>
             </div>
         }
@@ -42,7 +45,9 @@
             }
         </tbody>
     </table>*@
-
-<p>
-    <a asp-action="Create">Добавити вчителя</a>
-</p>
+@if (signInManager.IsSignedIn(User) && User.IsInRole(DefaultRoles.Admin))
+{
+    <p>
+        <a class="btn btn-primary" asp-action="Create">Добавити вчителя</a>
+    </p>
+}

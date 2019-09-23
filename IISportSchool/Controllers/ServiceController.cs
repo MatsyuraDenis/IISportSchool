@@ -8,6 +8,7 @@ using IISportSchool.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using IISportSchool.Models.FluentValidators;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace IISportSchool.Controllers
@@ -39,12 +40,16 @@ namespace IISportSchool.Controllers
 
             return View(department);
         }
+
+        [HttpGet]
+        [Authorize(Roles = DefaultRoles.Admin)]
         public IActionResult AddDepartment()
         {
             Department department = new Department { ImagePath = @"~/images/departmentLogos/" };
             return View(department);
         }
 
+        [Authorize(Roles = DefaultRoles.Admin)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddDepartment(Department department)
@@ -61,6 +66,8 @@ namespace IISportSchool.Controllers
             return RedirectToAction("DepartmentList");
         }
 
+
+        [Authorize(Roles = DefaultRoles.Admin)]
         public IActionResult UpdateDepartment(int? id)
         {
             if (id == null || id == 0)
@@ -73,6 +80,8 @@ namespace IISportSchool.Controllers
 
             return View(department);
         }
+
+        [Authorize(Roles = DefaultRoles.Admin)]
         [HttpPost]
         public IActionResult UpdateDepartment(Department department)
         {
@@ -86,6 +95,8 @@ namespace IISportSchool.Controllers
             return RedirectToAction("DepartmentList");
         }
 
+
+        [Authorize(Roles = DefaultRoles.Admin)]
         public IActionResult DeleteDepartment(int? id)
         {
             if (id == null || id == 0)
@@ -99,6 +110,8 @@ namespace IISportSchool.Controllers
             return View(department);
         }
 
+
+        [Authorize(Roles = DefaultRoles.Admin)]
         public IActionResult DeleteDepartmentConfirmed(int Id)
         {
             _deleter.DeleteDepartment(Id);
@@ -106,6 +119,8 @@ namespace IISportSchool.Controllers
             return RedirectToAction("DepartmentList");
         }
 
+
+        [Authorize(Roles = DefaultRoles.Admin)]
         public IActionResult AddSection(int departmentId = 0)
         {
             Section section = new Section
@@ -118,6 +133,8 @@ namespace IISportSchool.Controllers
             return View(section);
         }
 
+
+        [Authorize(Roles = DefaultRoles.Admin)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddSection(Section section)
@@ -147,6 +164,8 @@ namespace IISportSchool.Controllers
 
             return View(section);
         }
+
+        [Authorize(Roles = DefaultRoles.Admin)]
         public IActionResult DeleteSection(int? id)
         {
             if (id == null)
@@ -161,6 +180,8 @@ namespace IISportSchool.Controllers
 
             return View(section);
         }
+
+        [Authorize(Roles = DefaultRoles.Admin)]
         public IActionResult DeleteSectionConfirmed(int? id)
         {
             var section = _services.ListOfSections()
@@ -176,6 +197,8 @@ namespace IISportSchool.Controllers
             return RedirectToAction("DepartmentList");
         }
 
+
+        [Authorize(Roles = DefaultRoles.Admin)]
         public IActionResult UpdateSection(int? id)
         {
             if (id == 0 || id == null)
@@ -191,6 +214,8 @@ namespace IISportSchool.Controllers
 
             return View(section);
         }
+
+        [Authorize(Roles = DefaultRoles.Admin)]
         [HttpPost]
         public IActionResult UpdateSection(Section section)
         {
