@@ -14,6 +14,7 @@ namespace IISportSchool.Models.EntityConfigurations
             builder.Property(p => p.Name)
                 .IsRequired()
                 .HasMaxLength(255);
+            
         }
     }
 }

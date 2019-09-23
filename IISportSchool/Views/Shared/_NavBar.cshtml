@@ -1,4 +1,6 @@
-﻿<div class="navbar navbar-expand-sm navbar-dark bg-dark">
+﻿@inject SignInManager<IdentityUser> signInManager;
+
+<div class="navbar navbar-expand-sm navbar-dark bg-dark">
     <div class="navbar-header">
         <a class="navbar-brand" asp-action="Index" asp-controller="Home">Спортшкола</a>
     </div>
@@ -13,10 +15,32 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-action="Index" asp-controller="Teacher">Викладачі</a>
-            </li>          
+            </li>
             <li class="nav-item">
                 <a class="nav-link" asp-action="Index" asp-controller="Info">Інформація</a>
             </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+            @if (signInManager.IsSignedIn(User))
+            {
+                <li class="nav-item">
+                    <form method="post" asp-action="logout" asp-controller="account">
+                        <button class="nav-link py-0 btn btn-link" type="submit" style="width:auto;">
+                            Logout @User.Identity.Name
+                        </button>
+                    </form>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Register" asp-controller="Account">Реєстрація</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Login" asp-controller="Account">Війти</a>
+                </li>
+            }
         </ul>
     </div>
 </div>

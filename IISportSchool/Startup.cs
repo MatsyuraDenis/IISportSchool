@@ -9,6 +9,7 @@ using IISportSchool.Models.FluentValidators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +30,14 @@ namespace IISportSchool
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"]));
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 3;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            }).AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddScoped<ITeacherRepository, EFTeacherRepository>();
             services.AddScoped<IChildrenRepository, EFChildrenRepository>();
             services.AddScoped<IServiceRepository, EFServiceRepository>();
@@ -50,9 +59,61 @@ namespace IISportSchool
         {
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseDeveloperExceptionPage();
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: null,
+                    template: "Group-for-{sectionName}-section",
+                    defaults: new { controller = "Group", action = "Create", sectionName = "" }
+                );
+                routes.MapRoute(
+                    name: null,
+                    template: "Group-details/{id}",
+                    defaults: new { controller = "Group", action = "Details", id=1}
+                );
+                routes.MapRoute(
+                    name: null,
+                    template: "Section/{id}",
+                    defaults: new { controller = "Service", action = "SectionDetails", id = 1 }
+                    );
+                routes.MapRoute(
+                    name: null,
+                    template: "Section-edit/{id}",
+                    defaults: new { controller = "Service", action = "UpdateSection", id = 1 }
+                    );
+                routes.MapRoute(
+                    name: null,
+                    template: "Home",
+                    defaults: new { controller = "Home", action = "Index" }
+                );
+                routes.MapRoute(
+                    name: null,
+                    template: "Departments",
+                    defaults: new { controller = "Service", action = "DepartmentList" }
+                );
+                routes.MapRoute(
+                    name: null,
+                    template: "Department/{id}",
+                    defaults: new { controller = "Service", action = "DepartmentDetails", id = 1 }
+                );
+                routes.MapRoute(
+                    name: null,
+                    template: "Department-edit/{id}",
+                    defaults: new { controller = "Service", action = "UpdateDepartment", id = 1 }
+                );
+                routes.MapRoute(
+                    name: null,
+                    template: "Department-new",
+                    defaults: new { controller = "Service", action = "AddDepartment" }
+                );
+
+                routes.MapRoute(
+                    name: null,
+                    template: "SchoolInfo",
+                    defaults: new { controller = "Info", action = "Index" }
+                );
                 routes.MapRoute(
                     name: null,
                     template: "",
