@@ -9,7 +9,7 @@ namespace IISportSchool.Models
     {
         public const string Admin = "Admin";
         public const string Moderator = "Moderator";
-        public const string UserEmail = "Admin@iiss.com";
-        public const string UserPassword = "qwe123";
+        public const string UserEmail = "admin@admin.com";
+        public const string UserPassword = "admin123";
     }
 }

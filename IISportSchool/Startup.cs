@@ -55,7 +55,8 @@ namespace IISportSchool
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, UserManager<IdentityUser> userManager,
+            RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
         {
             app.UseDefaultFiles();
             app.UseStaticFiles();
@@ -71,7 +72,7 @@ namespace IISportSchool
                 routes.MapRoute(
                     name: null,
                     template: "Group-details/{id}",
-                    defaults: new { controller = "Group", action = "Details", id=1}
+                    defaults: new { controller = "Group", action = "Details", id = 1 }
                 );
                 routes.MapRoute(
                     name: null,
@@ -130,9 +131,16 @@ namespace IISportSchool
             });
 
             ISeedDbAbstractFactory seedDb = new EFSeedDbAbstractFactory();
+
+             SeedAdmin.SeedRoles(roleManager);
+
+
+            SeedAdmin.SeedUsers(userManager);
+
+
             seedDb.EnsurePopulated(app);
         }
     }
 
-    
+
 }
