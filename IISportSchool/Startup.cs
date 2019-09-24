@@ -129,10 +129,10 @@ namespace IISportSchool
                 routes.MapRoute(name: null, template: "{controller}/{action}/{id?}");
             });
 
-            SeedPositions.EnsurePopulated(app);
-            SeedDepartments.EnsurePopulated(app);
-            SeedSections.EnsurePopulated(app);
-            SeedGroups.EnsurePopulated(app);
+            ISeedDbAbstractFactory seedDb = new EFSeedDbAbstractFactory();
+            seedDb.EnsurePopulated(app);
         }
     }
+
+    
 }
