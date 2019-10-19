@@ -24,8 +24,11 @@ namespace IISportSchool.Models
 
         public Children Delete(Children child)
         {
-            _context.Childrens.Remove(child);
-            _context.SaveChanges();
+            if(child != null)
+            {
+                _context.Childrens.Remove(child);
+                _context.SaveChanges();
+            }
             return child;
         }
 

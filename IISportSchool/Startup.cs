@@ -39,7 +39,6 @@ namespace IISportSchool
             }).AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddScoped<ITeacherRepository, EFTeacherRepository>();
-            services.AddScoped<IChildrenRepository, EFChildrenRepository>();
             services.AddScoped<IServiceRepository, EFServiceRepository>();
             services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<IPositionRepository, EFPositionRepository>();
@@ -132,7 +131,9 @@ namespace IISportSchool
 
             ISeedDbAbstractFactory seedDb = new EFSeedDbAbstractFactory();
 
-             SeedAdmin.SeedRoles(roleManager);
+            app.ApplicationServices.GetRequiredService<ApplicationDbContext>().Database.Migrate();
+
+            SeedAdmin.SeedRoles(roleManager);
 
 
             SeedAdmin.SeedUsers(userManager);
