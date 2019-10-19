@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace IISportSchool.Models
 {
+    // Composite pattern
     public abstract class SchoolService
     {
         public int Id { get; set; }
