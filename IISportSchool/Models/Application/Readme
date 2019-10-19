@@ -1,0 +1,3 @@
+Application Layer
+
+Here contained all application logic, such as validators, patterns, interfaces. It depends only on domain layer 
